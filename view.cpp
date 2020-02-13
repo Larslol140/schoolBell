@@ -108,6 +108,32 @@ void View::updateListWidget()
 
 }
 
+void View::showWindow()
+{
+  show();
+  tray->hide();
+}
+
+void View::showTray()
+{
+  hide();
+  tray->show();
+}
+
+void View::closeEvent(QCloseEvent *e)
+{
+  bool selection = QMessageBox::information(this, "Closing", "Do you want to minimize the application to tray?", QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes ? true : false;
+  if (selection)
+  {
+    e->ignore();
+    showTray();
+  }
+  else
+  {
+    e->accept();
+  }
+}
+
 void View::loadItemData(QListWidgetItem *item)
 {
   int id = item->toolTip().toInt();
@@ -143,7 +169,7 @@ void View::updBell()
   QString name = leBellName->text();
   QString file = leBellFile->text();
   QString time = Model::convertTime(teBellTime->time());
-  m->getDatabase()->updateBell(id, name, file, time, currentDay);
+  m->updBell(id, name, file, time, currentDay);
   updateListWidget();
 }
 
@@ -154,13 +180,20 @@ void View::openFileDialog()
 
 void View::updateSelectedDay(QDate date)
 {
-  currentDay = date.dayOfWeek();
+  currentDay = Model::convertDay(Model::convertDay(date.dayOfWeek()));
+
   updateListWidget();
 }
 
 View::View(QWidget *parent) : QWidget (parent)
 {
   m = Model::getInstance(this);
+  tray = new QSystemTrayIcon(this);
+  connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(showWindow()));
+  tray->setIcon(QPixmap(":/src/bell-icon.png"));
+  tray->hide();
   setUpGui();
+  setWindowTitle("School Bell");
+  setMinimumSize(720, 480);
   show();
 }

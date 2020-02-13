@@ -5,6 +5,7 @@ Model *Model::instance = nullptr;
 Model::Model(QObject *parent) : QObject (parent)
 {
   db = Database::getInstance();
+  mp = new QMediaPlayer(this);
   currentDay = getCurrentDayOfWeek();
   updateBellTimes();
   checkBellTimes();
@@ -52,7 +53,7 @@ QString Model::formatedText(int id) const
   QString day = convertDay(db->getBellDay(id));
   QString name = db->getBellName(id);
   QString time = db->getBellTime(id);
-  return name+" will ring on "+day+" at "+time;
+  return name+" mängitakse "+day+" kell "+time;
 }
 
 void Model::addBell(QString name, QString file, QString time, int day)
@@ -67,6 +68,12 @@ void Model::delBell(int id)
   updateBellTimes();
 }
 
+void Model::updBell(int id, QString name, QString file, QString time, int day)
+{
+  db->updateBell(id, name, file, time, day);
+  updateBellTimes();
+}
+
 int Model::getCurrentDayOfWeek() const
 {
   return QDate::currentDate().dayOfWeek();
@@ -74,7 +81,8 @@ int Model::getCurrentDayOfWeek() const
 
 void Model::playBellSound(int id)
 {
-  mp->setMedia(QMediaContent(db->getBellFile(id)));
+  mp->setVolume(100);
+  mp->setMedia(QMediaContent("file://"+db->getBellFile(id)));
   mp->play();
 }
 

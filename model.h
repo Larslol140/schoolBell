@@ -38,6 +38,7 @@ class Model : public QObject
 
     void            addBell(QString name, QString file, QString time, int day);
     void            delBell(int id);
+    void            updBell(int id, QString name, QString file, QString time, int day);
 
     static QTime    convertTime(QString time);
     static QString  convertTime(QTime time);

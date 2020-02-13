@@ -10,6 +10,7 @@ class View : public QWidget
 
   private:
     Model *m;
+    QSystemTrayIcon *tray;
 
     QListWidget *lwBells;
     QPushButton *pbAddBell;
@@ -24,8 +25,13 @@ class View : public QWidget
 
     void        setUpGui();
     void        updateListWidget();
+    void        showTray();
+
+  protected:
+    void  closeEvent(QCloseEvent *e);
 
   private slots:
+    void  showWindow();
     void  addBell();
     void  delBell();
     void  updBell();

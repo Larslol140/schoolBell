@@ -11,3 +11,6 @@ SOURCES += \
     main.cpp \
     model.cpp \
     view.cpp
+
+RESOURCES += \
+    images.qrc
