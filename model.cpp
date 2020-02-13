@@ -53,7 +53,7 @@ QString Model::formatedText(int id) const
   QString day = convertDay(db->getBellDay(id));
   QString name = db->getBellName(id);
   QString time = db->getBellTime(id);
-  return name+" mängitakse "+day+" kell "+time;
+  return name+" will play on "+day+" at "+time;
 }
 
 void Model::addBell(QString name, QString file, QString time, int day)
