@@ -64,6 +64,7 @@ void View::setUpGui()
   hlTimeDay->addLayout(vlBellDay);
 
   hlAddDel->addWidget(pbAddBell);
+  hlAddDel->addWidget(pbUpdBell);
   hlAddDel->addWidget(pbDelBell);
 
   QVBoxLayout *vlInputs = new QVBoxLayout;
@@ -128,12 +129,16 @@ void View::addBell()
 
 void View::delBell()
 {
+  if(!lwBells->selectedItems().count())
+    return;
   m->delBell(lwBells->selectedItems().first()->toolTip().toInt());
   updateListWidget();
 }
 
 void View::updBell()
 {
+  if(!lwBells->selectedItems().count())
+    return;
   int     id   = lwBells->selectedItems().first()->toolTip().toInt();
   QString name = leBellName->text();
   QString file = leBellFile->text();
