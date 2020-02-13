@@ -1,0 +1,12 @@
+# QT
+*.user*
+*.o
+moc_*
+*.moc
+*.autosave
+target_wrapper.sh
+.qmake.stash
+Makefile
+
+# Project
+schoolBell
