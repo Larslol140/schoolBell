@@ -110,6 +110,19 @@ QString Database::getBellName(int id) const
   return "ERROR";
 }
 
+QString Database::getBellFile(int id) const
+{
+  QSqlQuery q = getQuery();
+  q.prepare(DB_BELL_FILE);
+  q.bindValue(":bell_id", id);
+  q.exec();
+
+  if (q.first())
+    return q.value(0).toString();
+
+  return "ERROR";
+}
+
 int Database::getBellDay(int id) const
 {
   QSqlQuery q = getQuery();
@@ -123,11 +136,12 @@ int Database::getBellDay(int id) const
   return -1;
 }
 
-void Database::addNewBell(QString name, QString time, int day) const
+void Database::addBell(QString name, QString file, QString time, int day) const
 {
   QSqlQuery q = getQuery();
   q.prepare(DB_ADD_BELL);
   q.bindValue(":bell_name", name);
+  q.bindValue(":bell_file", file);
   q.bindValue(":bell_time", time);
   q.bindValue(":bell_day", day);
   q.exec();
@@ -138,5 +152,17 @@ void Database::delBell(int id) const
   QSqlQuery q = getQuery();
   q.prepare(DB_DEL_BELL);
   q.bindValue(":bell_id", id);
+  q.exec();
+}
+
+void Database::updateBell(int id, QString name, QString file, QString time, int day) const
+{
+  QSqlQuery q = getQuery();
+  q.prepare(DB_UPD_BELL);
+  q.bindValue(":bell_id", id);
+  q.bindValue(":bell_name", name);
+  q.bindValue(":bell_file", file);
+  q.bindValue(":bell_time", time);
+  q.bindValue(":bell_day", day);
   q.exec();
 }

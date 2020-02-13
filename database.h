@@ -27,9 +27,11 @@ class Database
     QList<int>    getBellsForDay(int day) const;
     QString       getBellTime(int id) const;
     QString       getBellName(int id) const;
+    QString       getBellFile(int id) const;
     int           getBellDay(int id) const;
-    void          addNewBell(QString name, QString time, int day) const;
+    void          addBell(QString name, QString file, QString time, int day) const;
     void          delBell(int id) const;
+    void          updateBell(int id, QString name, QString file, QString time, int day) const;
 };
 
 #endif // DATABASE_H

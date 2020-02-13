@@ -1,8 +1,13 @@
-QT += core gui widgets sql
+QT += core gui widgets sql multimedia
 
 HEADERS += \
     config.h \
-    database.h
+    database.h \
+    model.h \
+    view.h
 
 SOURCES += \
-    database.cpp
+    database.cpp \
+    main.cpp \
+    model.cpp \
+    view.cpp
